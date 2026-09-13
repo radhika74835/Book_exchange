@@ -3,9 +3,6 @@
 session_start();
 include("db_connect.php");
 
-
-/* Admin check */
-
 if (!isset($_SESSION["student_id"]) ||
     !isset($_SESSION["is_admin"]) ||
     $_SESSION["is_admin"] != 1) {
@@ -13,9 +10,6 @@ if (!isset($_SESSION["student_id"]) ||
     header("Location: admin_login.php");
     exit();
 }
-
-
-/* Get books */
 
 $query = mysqli_query(
     $conn,
