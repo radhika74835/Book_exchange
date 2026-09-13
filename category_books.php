@@ -4,22 +4,12 @@ session_start();
 
 require_once "db_connect.php";
 
-
-/* ---------------------------------------
-   CHECK LOGIN
---------------------------------------- */
-
 if (!isset($_SESSION["student_id"])) {
 
     header("Location: login.php");
     exit;
 
 }
-
-
-/* ---------------------------------------
-   GET CATEGORY FROM URL
---------------------------------------- */
 
 $category = trim($_GET["category"] ?? "");
 
@@ -29,11 +19,6 @@ if ($category === "") {
     exit("Invalid category.");
 
 }
-
-
-/* ---------------------------------------
-   SPLIT MULTIPLE CATEGORIES
---------------------------------------- */
 
 $selectedCategories = array_filter(
     array_map(
@@ -48,11 +33,6 @@ if (empty($selectedCategories)) {
     exit("Invalid category.");
 
 }
-
-
-/* ---------------------------------------
-   CATEGORY DISPLAY NAME
---------------------------------------- */
 
 $displayCategory = "Books";
 
@@ -101,11 +81,6 @@ elseif (
 
 }
 
-
-/* ---------------------------------------
-   CREATE PLACEHOLDERS
---------------------------------------- */
-
 $placeholders = implode(
     ",",
     array_fill(
@@ -114,11 +89,6 @@ $placeholders = implode(
         "?"
     )
 );
-
-
-/* ---------------------------------------
-   SQL QUERY
---------------------------------------- */
 
 $sql = "
     SELECT *
@@ -144,11 +114,6 @@ if (!$stmt) {
 
 }
 
-
-/* ---------------------------------------
-   BIND CATEGORIES
---------------------------------------- */
-
 $types = str_repeat(
     "s",
     count($selectedCategories)
@@ -160,11 +125,6 @@ mysqli_stmt_bind_param(
     $types,
     ...$selectedCategories
 );
-
-
-/* ---------------------------------------
-   EXECUTE QUERY
---------------------------------------- */
 
 mysqli_stmt_execute($stmt);
 
@@ -212,9 +172,6 @@ $result = mysqli_stmt_get_result($stmt);
 
 <div class="container py-5">
 
-
-    <!-- BACK BUTTON -->
-
     <a
         href="index.php"
         class="btn btn-secondary mb-4"
@@ -223,9 +180,6 @@ $result = mysqli_stmt_get_result($stmt);
         ← Back to Home
 
     </a>
-
-
-    <!-- CATEGORY TITLE -->
 
     <h2 class="mb-4">
 
@@ -273,9 +227,6 @@ $result = mysqli_stmt_get_result($stmt);
                         class="card h-100 shadow-sm"
                     >
 
-
-                        <!-- BOOK IMAGE -->
-
                         <?php if (
                             !empty($book["image"])
                         ): ?>
@@ -294,7 +245,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 "
                                 alt="Book Image"
                             >
-
 
                         <?php else: ?>
 
@@ -322,9 +272,6 @@ $result = mysqli_stmt_get_result($stmt);
 
                         <div class="card-body">
 
-
-                            <!-- TITLE -->
-
                             <h5 class="card-title">
 
                                 <?php
@@ -334,10 +281,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 ?>
 
                             </h5>
-
-
-                            <!-- AUTHOR -->
-
                             <p class="mb-1">
 
                                 <strong>
@@ -351,10 +294,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 ?>
 
                             </p>
-
-
-                            <!-- CATEGORY -->
-
                             <p class="mb-1">
 
                                 <strong>
@@ -368,10 +307,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 ?>
 
                             </p>
-
-
-                            <!-- PRICE -->
-
                             <p class="mb-1">
 
                                 <strong>
@@ -385,9 +320,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 ?>
 
                             </p>
-
-
-                            <!-- CONDITION -->
 
                             <p class="mb-3">
 
@@ -404,10 +336,6 @@ $result = mysqli_stmt_get_result($stmt);
                                 ?>
 
                             </p>
-
-
-                            <!-- VIEW DETAILS BUTTON -->
-
                             <a
                                 href="book_details.php?id=<?php
                                 echo (int)$book["id"];
@@ -428,18 +356,13 @@ $result = mysqli_stmt_get_result($stmt);
 
                 </div>
 
-
             <?php endwhile; ?>
-
 
         </div>
 
-
     <?php endif; ?>
 
-
 </div>
-
 
 <?php
 
@@ -448,7 +371,6 @@ mysqli_stmt_close($stmt);
 mysqli_close($conn);
 
 ?>
-
 
 </body>
 
