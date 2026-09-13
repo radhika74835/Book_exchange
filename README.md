@@ -1,47 +1,98 @@
-# Smart Online Book Exchange - Fixed Version
+# Smart Online Book Exchange
 
-## Requirements
+##  Project Overview
+
+Smart Online Book Exchange is a web-based application developed to help students exchange and manage books online.
+
+The system allows students to register, upload books, browse and search available books, send exchange requests, communicate with other students, and track exchange activities.
+
+An administrator can manage students, books, and exchange requests through the admin dashboard.
+
+##  Features
+
+### Student Module
+- Student registration and login
+- Secure session-based authentication
+- Upload books
+- Edit and delete uploaded books
+- View personal books
+- Browse available books
+- Search books
+- Browse books by category
+- View book details
+- Send book exchange requests
+- View and manage exchange requests
+- Track exchange status
+- Send and receive messages
+- Receive notifications
+
+### Admin Module
+- Admin login
+- Admin dashboard
+- View and manage students
+- View and manage books
+- View and manage exchange requests
+- Process exchange activities
+
+##  Technologies Used
+
+- PHP 8.x
+- MySQL
+- HTML
+- CSS
+- JavaScript
 - XAMPP
 - Apache
-- MySQL
-- PHP 8.x
+- phpMyAdmin
 
-## Database
-Database name: `book_exchange_db`
+##  Database
 
-Use the existing database and run `database_fix.sql` once in phpMyAdmin.
+Database name:
 
-## Important
-The original project had PHP/database column mismatches:
-- `students` uses `name`, but `login.php` used `student_name`.
-- `students.email` is UNIQUE, but registration did not provide an email.
-- `books` uses `student_id` and `book_condition`, but several pages used `owner_id`, `user_id` and `condition`.
-- `messages` uses `content` and `sent_at`, but the old code used `message`, `book_id` and `timestamp`.
-- `notifications` uses `student_id`, not `user_id`.
-- `exchange_request` uses `current_book_id` and `desired_book_id`.
-- The database stores image paths such as `uploads/...`; the old pages incorrectly prefixed them with `assets/images/`.
+`book_exchange_db`
 
-The files in this folder use the actual database schema.
+The project uses MySQL for storing student, book, exchange request, message, notification, and review information.
 
-## Run
-1. Copy the fixed PHP files into your project folder:
-   `C:\xampp\htdocs\bookexchange\`
-2. Keep your CSS files.
-3. Create/keep this folder:
-   `C:\xampp\htdocs\bookexchange\uploads\`
-4. Start Apache and MySQL in XAMPP.
-5. Open:
-   `http://localhost/bookexchange/`
-6. Register using a new student name, a valid email and a password.
-7. Upload a book.
-8. Browse/search the book.
-9. Use Book Details to send a message or exchange request.
+##  Project Structure
 
-## Database connection
-`db_connect.php` assumes:
-- Host: localhost
-- User: root
-- Password: empty
-- Database: book_exchange_db
-
-If your MySQL password is different, change it in `db_connect.php`.
+Online_BookExchange/
+│
+├── admin_dashboard.php
+├── admin_login.php
+├── admin_books.php
+├── admin_students.php
+├── admin_requests.php
+│
+├── index.php
+├── register.php
+├── login.php
+├── logout.php
+│
+├── add_book.php
+├── upload_book.php
+├── edit_book.php
+├── delete_book.php
+├── my_books.php
+├── browse_books.php
+├── book_details.php
+│
+├── search_book.php
+├── search_books.php
+├── book_categories.php
+├── category_books.php
+│
+├── exchange.php
+├── exchange_request.php
+├── exchange_status.php
+├── my_requests.php
+├── process_exchange.php
+│
+├── messages.php
+├── send_message.php
+├── notifications.php
+├── notify_user.php
+│
+├── db_connect.php
+├── database_fix.sql
+├── README.md
+└── uploads/
