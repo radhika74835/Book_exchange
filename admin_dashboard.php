@@ -4,7 +4,7 @@ include("db_connect.php");
 
 /* --------------------------------
    ADMIN ACCESS CHECK
---------------------------------- */
+---------------------------------
 
 if (!isset($_SESSION["student_id"]) ||
     !isset($_SESSION["is_admin"]) ||
