@@ -3,6 +3,9 @@
 session_start();
 include("db_connect.php");
 
+
+/* Admin check */
+
 if (
     !isset($_SESSION["student_id"]) ||
     !isset($_SESSION["is_admin"]) ||
@@ -11,6 +14,9 @@ if (
     header("Location: admin_login.php");
     exit();
 }
+
+
+/* Get exchange requests */
 
 $query = mysqli_query(
     $conn,
