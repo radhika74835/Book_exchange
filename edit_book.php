@@ -4,6 +4,11 @@ session_start();
 
 require_once "db_connect.php";
 
+
+/* ---------------------------------------
+   CHECK LOGIN
+--------------------------------------- */
+
 if (!isset($_SESSION["student_id"])) {
 
     header("Location: login.php");
@@ -14,13 +19,24 @@ if (!isset($_SESSION["student_id"])) {
 
 $studentId = (int)$_SESSION["student_id"];
 
+
+/* ---------------------------------------
+   GET BOOK ID
+--------------------------------------- */
+
 $bookId = isset($_GET["id"]) ? (int)$_GET["id"] : 0;
+
 
 if ($bookId <= 0) {
 
     exit("Invalid book ID.");
 
 }
+
+
+/* ---------------------------------------
+   GET BOOK DETAILS
+--------------------------------------- */
 
 $sql = "
     SELECT *
@@ -46,17 +62,36 @@ $book = mysqli_fetch_assoc($result);
 
 mysqli_stmt_close($stmt);
 
+
+/* ---------------------------------------
+   CHECK BOOK
+--------------------------------------- */
+
 if (!$book) {
 
     exit("Book not found or you do not have permission to edit this book.");
 
 }
 
+
+/* ---------------------------------------
+   VARIABLES
+--------------------------------------- */
+
 $message = "";
 $messageType = "";
 
 
+/* ---------------------------------------
+   UPDATE BOOK
+--------------------------------------- */
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+
+    /* ---------------------------------------
+       GET FORM VALUES
+    --------------------------------------- */
 
     $title = trim($_POST["title"] ?? "");
 
@@ -69,6 +104,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $contactNumber = trim($_POST["contact_number"] ?? "");
 
     $bookCondition = trim($_POST["book_condition"] ?? "");
+
+
+    /* ---------------------------------------
+       CHECK REQUIRED FIELDS
+    --------------------------------------- */
 
     if (
         $title === "" ||
@@ -86,6 +126,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     else {
+
+
+        /* ---------------------------------------
+           ALLOWED CATEGORIES
+        --------------------------------------- */
 
         $allowedCategories = [
 
@@ -110,6 +155,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         ];
 
 
+        /* ---------------------------------------
+           CHECK CATEGORY
+        --------------------------------------- */
+
         if (!in_array($category, $allowedCategories, true)) {
 
             $message = "Invalid book category.";
@@ -119,6 +168,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
 
         else {
+
+
+            /* ---------------------------------------
+               UPDATE BOOK
+            --------------------------------------- */
 
             $sql = "
                 UPDATE books
@@ -171,6 +225,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         "Book updated successfully!";
 
                     $messageType = "success";
+
+
+                    /* ---------------------------------------
+                       UPDATE VALUES SHOWN IN FORM
+                    --------------------------------------- */
 
                     $book["title"] = $title;
 
