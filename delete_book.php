@@ -16,9 +16,6 @@ if ($bookId <= 0) {
     exit("Invalid book.");
 }
 
-
-/* Delete only the logged-in user's book */
-
 $stmt = mysqli_prepare(
     $conn,
     "
