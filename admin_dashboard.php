@@ -2,6 +2,10 @@
 session_start();
 include("db_connect.php");
 
+/* --------------------------------
+   ADMIN ACCESS CHECK
+--------------------------------- */
+
 if (!isset($_SESSION["student_id"]) ||
     !isset($_SESSION["is_admin"]) ||
     $_SESSION["is_admin"] != 1) {
@@ -10,7 +14,17 @@ if (!isset($_SESSION["student_id"]) ||
     exit();
 }
 
+
+/* --------------------------------
+   GET ADMIN NAME
+--------------------------------- */
+
 $adminName = $_SESSION["student_name"];
+
+
+/* --------------------------------
+   TOTAL STUDENTS
+--------------------------------- */
 
 $result = mysqli_query(
     $conn,
@@ -20,6 +34,11 @@ $result = mysqli_query(
 $row = mysqli_fetch_assoc($result);
 $totalStudents = $row["total"];
 
+
+/* --------------------------------
+   TOTAL BOOKS
+--------------------------------- */
+
 $result = mysqli_query(
     $conn,
     "SELECT COUNT(*) AS total FROM books"
@@ -27,6 +46,11 @@ $result = mysqli_query(
 
 $row = mysqli_fetch_assoc($result);
 $totalBooks = $row["total"];
+
+
+/* --------------------------------
+   AVAILABLE BOOKS
+--------------------------------- */
 
 $result = mysqli_query(
     $conn,
@@ -38,6 +62,11 @@ $result = mysqli_query(
 $row = mysqli_fetch_assoc($result);
 $availableBooks = $row["total"];
 
+
+/* --------------------------------
+   TOTAL EXCHANGE REQUESTS
+--------------------------------- */
+
 $result = mysqli_query(
     $conn,
     "SELECT COUNT(*) AS total
@@ -46,6 +75,11 @@ $result = mysqli_query(
 
 $row = mysqli_fetch_assoc($result);
 $totalRequests = $row["total"];
+
+
+/* --------------------------------
+   PENDING REQUESTS
+--------------------------------- */
 
 $result = mysqli_query(
     $conn,
@@ -57,6 +91,11 @@ $result = mysqli_query(
 $row = mysqli_fetch_assoc($result);
 $pendingRequests = $row["total"];
 
+
+/* --------------------------------
+   ACCEPTED REQUESTS
+--------------------------------- */
+
 $result = mysqli_query(
     $conn,
     "SELECT COUNT(*) AS total
@@ -66,6 +105,11 @@ $result = mysqli_query(
 
 $row = mysqli_fetch_assoc($result);
 $acceptedRequests = $row["total"];
+
+
+/* --------------------------------
+   REJECTED REQUESTS
+--------------------------------- */
 
 $result = mysqli_query(
     $conn,
@@ -77,6 +121,11 @@ $result = mysqli_query(
 $row = mysqli_fetch_assoc($result);
 $rejectedRequests = $row["total"];
 
+
+/* --------------------------------
+   RECENT STUDENTS
+--------------------------------- */
+
 $studentsQuery = mysqli_query(
     $conn,
     "SELECT id, name, email
@@ -85,6 +134,11 @@ $studentsQuery = mysqli_query(
      ORDER BY id DESC
      LIMIT 5"
 );
+
+
+/* --------------------------------
+   RECENT BOOKS
+--------------------------------- */
 
 $booksQuery = mysqli_query(
     $conn,
@@ -101,6 +155,11 @@ $booksQuery = mysqli_query(
      ORDER BY b.id DESC
      LIMIT 5"
 );
+
+
+/* --------------------------------
+   RECENT EXCHANGE REQUESTS
+--------------------------------- */
 
 $requestsQuery = mysqli_query(
     $conn,
@@ -148,6 +207,11 @@ $requestsQuery = mysqli_query(
 
 <body class="bg-light">
 
+
+<!-- ============================
+     NAVBAR
+============================= -->
+
 <nav class="navbar navbar-dark bg-dark">
 
     <div class="container">
@@ -179,6 +243,11 @@ $requestsQuery = mysqli_query(
 
 </nav>
 
+
+<!-- ============================
+     MAIN CONTAINER
+============================= -->
+
 <div class="container py-4">
 
 
@@ -194,7 +263,15 @@ $requestsQuery = mysqli_query(
 
     </div>
 
+
+    <!-- ============================
+         STATISTICS
+    ============================= -->
+
     <div class="row g-4 mb-4">
+
+
+        <!-- STUDENTS -->
 
         <div class="col-md-3">
 
@@ -216,6 +293,9 @@ $requestsQuery = mysqli_query(
 
         </div>
 
+
+        <!-- BOOKS -->
+
         <div class="col-md-3">
 
             <div class="card shadow-sm h-100">
@@ -236,6 +316,9 @@ $requestsQuery = mysqli_query(
 
         </div>
 
+
+        <!-- AVAILABLE -->
+
         <div class="col-md-3">
 
             <div class="card shadow-sm h-100">
@@ -255,6 +338,9 @@ $requestsQuery = mysqli_query(
             </div>
 
         </div>
+
+
+        <!-- REQUESTS -->
 
         <div class="col-md-3">
 
@@ -277,6 +363,11 @@ $requestsQuery = mysqli_query(
         </div>
 
     </div>
+
+
+    <!-- ============================
+         REQUEST STATISTICS
+    ============================= -->
 
     <div class="row g-4 mb-5">
 
@@ -345,6 +436,11 @@ $requestsQuery = mysqli_query(
 
     </div>
 
+
+    <!-- ============================
+         QUICK ACTIONS
+    ============================= -->
+
     <div class="card shadow-sm mb-4">
 
         <div class="card-body">
@@ -377,6 +473,11 @@ $requestsQuery = mysqli_query(
         </div>
 
     </div>
+
+
+    <!-- ============================
+         RECENT STUDENTS
+    ============================= -->
 
     <div class="card shadow-sm mb-4">
 
@@ -470,6 +571,11 @@ $requestsQuery = mysqli_query(
         </div>
 
     </div>
+
+
+    <!-- ============================
+         RECENT BOOKS
+    ============================= -->
 
     <div class="card shadow-sm mb-4">
 
@@ -604,6 +710,11 @@ $requestsQuery = mysqli_query(
         </div>
 
     </div>
+
+
+    <!-- ============================
+         RECENT REQUESTS
+    ============================= -->
 
     <div class="card shadow-sm mb-4">
 
